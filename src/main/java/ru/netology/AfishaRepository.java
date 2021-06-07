@@ -1,38 +1,52 @@
 package ru.netology;
 
-public class AfishaManager {
-    private AfishaItem[] items = new AfishaItem[0];
-    private int itemsToReturn;
+public class AfishaRepository {
 
-    public AfishaManager(int itemsToReturn) {
-        this.itemsToReturn = itemsToReturn;
+    private AfishaItem[] items = new AfishaItem[0];
+
+    public AfishaItem[] findAll() {
+        return items;
     }
 
-    public void add(AfishaItem item) {
+    AfishaItem findById(int id) {
+        for (AfishaItem item : items) {
+            if (item.getMovieId() == id) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public void save(AfishaItem item) {
         int length = items.length + 1;
         AfishaItem[] tmp = new AfishaItem[length];
 
         for (int i = 0; i < items.length; i++) {
             tmp[i] = items[i];
         }
-
         int lastIndex = tmp.length - 1;
         tmp[lastIndex] = item;
         items = tmp;
     }
 
-    public AfishaItem[] getLastItems() {
-        int length = itemsToReturn;
-        if (length > items.length) {
-            length = items.length;
+    public boolean removeById(int id) {
+        int length = items.length - 1;
+        AfishaItem[] tmp = new AfishaItem[length];
+        int index = 0;
+        boolean founded = false;
+        for (AfishaItem item : items) {
+            if (item.getMovieId() != id) {
+                tmp[index] = item;
+                index++;
+            } else {
+                founded = true;
+            }
         }
+        items = tmp;
+        return founded;
+    }
 
-        AfishaItem[] result = new AfishaItem[length];
-
-        for (int i = 0; i < length; i++) {
-            int index = items.length - i - 1;
-            result[i] = items[index];
-        }
-        return result;
+    public void removeAll() {
+        items = new AfishaItem[0];
     }
 }
