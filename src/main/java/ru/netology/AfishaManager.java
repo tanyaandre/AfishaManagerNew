@@ -1,28 +1,22 @@
-package ru.netology;
+package ru.netology.manager;
 
 public class AfishaManager {
-    private AfishaItem[] items = new AfishaItem[0];
+    private AfishaRepository repository;
     private int itemsToReturn;
 
-    public AfishaManager(int itemsToReturn) {
-        this.itemsToReturn = itemsToReturn;
+    public AfishaManager(AfishaRepository repository) {
+        this.repository = repository;
+        this.itemsToReturn = 10;
     }
 
     public void add(AfishaItem item) {
-        int length = items.length + 1;
-        AfishaItem[] tmp = new AfishaItem[length];
-
-        for (int i = 0; i < items.length; i++) {
-            tmp[i] = items[i];
-        }
-
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = item;
-        items = tmp;
+        repository.save(item);
     }
+
 
     public AfishaItem[] getLastItems() {
         int length = itemsToReturn;
+        AfishaItem[] items = repository.findAll();
         if (length > items.length) {
             length = items.length;
         }
